@@ -1,57 +1,13 @@
-const SERVICES = [{
-        id: 'inc',
-        name: 'Income Certificate',
-        icon: '💰',
-        duration: 30
-    },
-    {
-        id: 'ews',
-        name: 'EWS Certificate',
-        icon: '🏢',
-        duration: 30
-    },
-    {
-        id: 'res',
-        name: 'Resident Certificate',
-        icon: '📍',
-        duration: 20
-    },
-    {
-        id: 'fam',
-        name: 'Family Member Cert',
-        icon: '👨‍👩‍👧‍👦',
-        duration: 30
-    },
-    {
-        id: 'sol',
-        name: 'Solvency Certificate',
-        icon: '🏦',
-        duration: 45
-    },
-    {
-        id: 'rat',
-        name: 'Ration Card',
-        icon: '🌾',
-        duration: 20
-    },
-    {
-        id: 'cas',
-        name: 'Caste Certificate',
-        icon: '📜',
-        duration: 30
-    },
-    {
-        id: 'pen',
-        name: 'Pension Certificate',
-        icon: '👴',
-        duration: 20
-    },
-    {
-        id: 'ryt',
-        name: 'Rythu Bandhu Passbook',
-        icon: '🚜',
-        duration: 45
-    }
+const SERVICES = [
+    { id: 'inc', name: 'Income Certificate', icon: '💰', duration: 30 },
+    { id: 'ews', name: 'EWS Certificate', icon: '🏢', duration: 30 },
+    { id: 'res', name: 'Resident Certificate', icon: '📍', duration: 20 },
+    { id: 'fam', name: 'Family Member Cert', icon: '👨‍👩‍👧‍👦', duration: 30 },
+    { id: 'sol', name: 'Solvency Certificate', icon: '🏦', duration: 45 },
+    { id: 'rat', name: 'Ration Card', icon: '🌾', duration: 20 },
+    { id: 'cas', name: 'Caste Certificate', icon: '📜', duration: 30 },
+    { id: 'pen', name: 'Pension Certificate', icon: '👴', duration: 20 },
+    { id: 'ryt', name: 'Rythu Bandhu Passbook', icon: '🚜', duration: 45 }
 ];
 
 const DISTRICTS = ['Hyderabad', 'Rangareddy', 'Medchal', 'Sangareddy', 'Warangal'];
@@ -215,17 +171,13 @@ function handleServiceNext() {
 }
 
 function selectDate(iso) {
-    state.selectedDate = {
-        iso: iso
-    };
+    state.selectedDate = { iso: iso };
     state.selectedSlot = null;
     render();
 }
 
 function selectSlot(label) {
-    state.selectedSlot = {
-        label: label
-    };
+    state.selectedSlot = { label: label };
     render();
 }
 
@@ -641,55 +593,30 @@ function viewAdminDash() {
                 </div>`;
             }
 
-            return ` <
-        div class = "queue-item ${a.senior ? 'senior' : ''} ${a.status==='done' ? 'done' : ''}" >
-        <
-        div class = "queue-header" >
-        <
-        div class = "token-badge"
-    style = "background:${a.walkin ? 'var(--saffron)' : 'var(--navy)'}" > $ {
-        a.token
-    } < /div> <
-    div style = "flex:1" >
-        <
-        div style = "font-weight:700; font-size:15px" > $ {
-            a.name
-        } < /div> <
-    div style = "font-size:12px; color:var(--text-secondary)" > $ {
-        a.age
-    }
-    y• $ {
-        a.time
-    } < /div> < /
-    div >
-        $ {
-            a.isPostponed ? '<span class="badge badge-gray">↪ Postponed</span>' : ''
-        }
-    $ {
-        a.senior ? '<span class="badge badge-gold">Senior Priority</span>' : ''
-    }
-    $ {
-        a.status === 'done' ? '<span class="badge badge-green">Completed</span>' : ''
-    } <
-    /div> <
-    div style = "font-size:13px; margin-bottom:8px;" > $ {
-        a.service
-    } < /div>
-
-    $ {
-        a.status === 'pending' ? `
-                    <div class="queue-actions">
-                        <button class="btn btn-green btn-sm" style="flex:1" onclick="markDone('${a.id}')">✓ Done</button>
-                        ${(a.postponeCount || 0) < 2 
-                            ? `<button class="btn btn-outline btn-sm" style="flex:1" onclick="postponeApp('${a.id}')">↪ Postpone (${2 - (a.postponeCount || 0)} left)</button>`
-                            : `<button class="btn btn-outline btn-sm" style="flex:1; opacity:0.5; cursor:not-allowed;" disabled>Limit Reached</button>`
-                        }
-                        <button class="btn btn-danger btn-sm" style="flex:1; padding: 8px 4px;" onclick="adminCancelApp('${a.id}')">🗑️ Cancel</button>
+            return `
+                <div class="queue-item ${a.senior ? 'senior' : ''} ${a.status === 'done' ? 'done' : ''}">
+                    <div class="queue-header">
+                        <div class="token-badge" style="background:${a.walkin ? 'var(--saffron)' : 'var(--navy)'}">${a.token}</div>
+                        <div style="flex:1">
+                            <div style="font-weight:700; font-size:15px">${a.name}</div>
+                            <div style="font-size:12px; color:var(--text-secondary)">${a.age}y • ${a.time}</div>
+                        </div>
+                        ${a.isPostponed ? '<span class="badge badge-gray">↪ Postponed</span>' : ''}
+                        ${a.senior ? '<span class="badge badge-gold">Senior Priority</span>' : ''}
+                        ${a.status === 'done' ? '<span class="badge badge-green">Completed</span>' : ''}
                     </div>
-                ` : ''
-    } <
-    /div>
-    `;
+                    <div style="font-size:13px; margin-bottom:8px;">${a.service}</div>
+                    ${a.status === 'pending' ? `
+                        <div class="queue-actions">
+                            <button class="btn btn-green btn-sm" style="flex:1" onclick="markDone('${a.id}')">✓ Done</button>
+                            ${(a.postponeCount || 0) < 2 
+                                ? `<button class="btn btn-outline btn-sm" style="flex:1" onclick="postponeApp('${a.id}')">↪ Postpone (${2 - (a.postponeCount || 0)} left)</button>`
+                                : `<button class="btn btn-outline btn-sm" style="flex:1; opacity:0.5; cursor:not-allowed;" disabled>Limit Reached</button>`
+                            }
+                            <button class="btn btn-danger btn-sm" style="flex:1; padding: 8px 4px;" onclick="adminCancelApp('${a.id}')">🗑️ Cancel</button>
+                        </div>
+                    ` : ''}
+                </div>`;
         }).join('')}
     `;
 }
